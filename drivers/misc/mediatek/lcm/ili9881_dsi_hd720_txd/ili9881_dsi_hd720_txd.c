@@ -793,4 +793,4 @@ LCM_DRIVER ili9881_dsi_hd720_txd_lcm_drv =
 	.ata_check          = lcm_ata_check,    //sunsiyuan@wind-mobi.com add ata_check at 20161128
 };
 //late_initcall(lcm_init);
-//manish.n.manish45@gmail.com add at 20161108 end
+//manish.n.manish45@gmail.com add at 20151108 end
