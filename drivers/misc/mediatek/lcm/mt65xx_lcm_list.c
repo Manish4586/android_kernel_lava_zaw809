@@ -19,6 +19,7 @@
 #endif
 
 extern LCM_DRIVER lp079x01_lcm_drv;
+extern LCM_DRIVER ili9881_dsi_hd720_txd_zaw809_lcm_drv;
 extern LCM_DRIVER hx8369_lcm_drv;
 extern LCM_DRIVER hx8369_6575_lcm_drv;
 extern LCM_DRIVER hx8363_6575_dsi_lcm_drv;
@@ -196,14 +197,14 @@ extern LCM_DRIVER hx8394d_dsi_vdo_djn_boe_hd720_ips_lcm_drv;
 
 LCM_DRIVER* lcm_driver_list[] = 
 { 
-	#if defined(HX8394D_DSI_VDO_DJN_BOE_HD720_IPS)
-	&hx8394d_dsi_vdo_djn_boe_hd720_ips_lcm_drv,
+	#if defined(ILI9881_DSI_HD720_TXD_ZAW809)
+	&ili9881_dsi_hd720_txd_zaw809_lcm_drv,
 #endif	
 
 	#if defined(HX8379C_DSI_VDO_AZET_WVGA_IPS)
 	&hx8379c_dsi_vdo_azet_wvga_ips_lcm_drv,
 #endif	
-#if defined(OTM1283A_DSI_VDO_HLT_BOE_HD720_IPS)
+#if defined	(OTM1283A_DSI_VDO_HLT_BOE_HD720_IPS)
 	&otm1283a_dsi_vdo_hlt_boe_hd720_ips_lcm_drv,
 #endif	
 	
@@ -896,7 +897,7 @@ static unsigned char lcd_id_pins_value = 0xFF;
 
 /******************************************************************************
 Function:       which_lcd_module_triple
-  Description:    read LCD ID PIN status,could identify three status:high¡¢low¡¢float
+  Description:    read LCD ID PIN status,could identify three status:highÂ¡Â¢lowÂ¡Â¢float
   Input:           none
   Output:         none
   Return:         LCD ID1|ID0 value
