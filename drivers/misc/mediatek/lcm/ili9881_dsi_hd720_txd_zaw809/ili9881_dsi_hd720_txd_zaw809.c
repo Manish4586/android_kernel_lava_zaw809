@@ -770,9 +770,9 @@ static unsigned int lcm_esd_recover(void)
 
 	return TRUE;
 }
-LCM_DRIVER ili9881_dsi_hd720_txd_lcm_drv =
+LCM_DRIVER ili9881_dsi_hd720_txd_zaw809_lcm_drv =
 {
-    .name           	= "ili9881_dsi_hd720_txd",
+    .name           	= "ili9881_dsi_hd720_txd_zaw809",
     .set_util_funcs 	= lcm_set_util_funcs,
     .get_params     	= lcm_get_params,
     .init           	= lcm_init,
