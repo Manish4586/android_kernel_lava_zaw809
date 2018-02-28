@@ -19,7 +19,7 @@
 #endif
 
 extern LCM_DRIVER lp079x01_lcm_drv;
-extern LCM_Driver ili9881_dsi_hd720_txd_zaw809;
+extern LCM_Driver ili9881_dsi_hd720_txd_zaw809_lcm_drv;//manish.n.manish45@gmail.com add at 20151108 begin
 extern LCM_DRIVER hx8369_lcm_drv;
 extern LCM_DRIVER hx8369_6575_lcm_drv;
 extern LCM_DRIVER hx8363_6575_dsi_lcm_drv;
@@ -130,8 +130,6 @@ extern LCM_DRIVER hx8389b_qhd_dsi_vdo_tianma055xdhp_lcm_drv;
 extern LCM_DRIVER cpt_claa101fp01_dsi_vdo_lcm_drv;
 extern LCM_DRIVER h070d_18dm_lcm_drv;
 extern LCM_DRIVER hx8394a_hd720_dsi_vdo_tianma_lcm_drv;
-extern LCM_DRIVER hx8394_dsi_vdo_truly_hd720_ips_lcm_drv;//++++rgk bug-id:no add by hyperion70 20150708
-extern LCM_DRIVER otm1283a_dsi_vdo_trust_hd720_ips_lcm_drv;//++++rgk bug-id:no add by hyperion70 20150708
 extern LCM_DRIVER cpt_clap070wp03xg_sn65dsi83_lcm_drv;
 extern LCM_DRIVER nt35520_hd720_tm_lcm_drv;
 extern LCM_DRIVER nt35520_hd720_boe_lcm_drv;
