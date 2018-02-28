@@ -19,7 +19,7 @@
 #endif
 
 extern LCM_DRIVER lp079x01_lcm_drv;
-extern LCM_DRIVER ili9881_dsi_hd720_txd_zaw809_lcm_drv;
+extern LCM_DRIVER ili9881_dsi_hd720_txd_zaw809_lcm_drv;//manish.n.manish45@gmail.com add at 20151108 begin
 extern LCM_DRIVER hx8369_lcm_drv;
 extern LCM_DRIVER hx8369_6575_lcm_drv;
 extern LCM_DRIVER hx8363_6575_dsi_lcm_drv;
