@@ -2,7 +2,7 @@
 #
 # Makefile for misc devices that really don't fit anywhere else.
 #
-ccflags-$(CONFIG_MTK_LCM) += -I$(srctree)/drivers/misc/mediatek/lcm/inc
+include $(srctree)/drivers/misc/mediatek/Makefile.custom
 
 obj-y += ili9881_dsi_hd720_txd_zaw809.o
 
