@@ -26,8 +26,6 @@ before_install:
 
 script: 
   - ./travis.sh 
-
-after_success:
   - cp arch/arm/boot/zImage tools/zImage
   - cd tools && chmod a+x mkimage
   - ./mkimage zImage KERNEL > zImage_with_header
