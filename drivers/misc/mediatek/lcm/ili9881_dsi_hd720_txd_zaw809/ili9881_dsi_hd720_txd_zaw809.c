@@ -11,7 +11,7 @@
 #if defined(BUILD_UBOOT)
 	#include <asm/arch/mt_gpio.h>
 #else
-	#include <mt-plat/mt_gpio.h>
+	#include <mach/mt_gpio.h>
 	#include <mach/gpio_const.h>
 #endif
 #endif
