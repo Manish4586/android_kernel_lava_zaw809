@@ -24,7 +24,8 @@ before_install:
 #######################################################################################
 
 
-script:  
+script: 
+sudo chmod a-x travis.sh
   - ./travis.sh 
 
 after_success:
