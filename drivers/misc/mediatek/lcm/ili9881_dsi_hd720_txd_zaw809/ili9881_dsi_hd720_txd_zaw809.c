@@ -1,18 +1,22 @@
 //manish.n.manish45@gmail.com add at 20151108 begin
 
-#ifndef BUILD_LK
-#include <linux/string.h>
-#endif
 #include "lcm_drv.h"
 
 #ifdef BUILD_LK
-	#include <platform/mt_gpio.h>
-	#include <string.h>
-#elif defined(BUILD_UBOOT)
+#include <platform/gpio_const.h>
+#include <platform/mt_gpio.h>
+#include <platform/upmu_common.h>
+#else
+#include <linux/string.h>
+#if defined(BUILD_UBOOT)
 	#include <asm/arch/mt_gpio.h>
 #else
 	#include <mach/mt_gpio.h>
+	#include <mach/gpio_const.h>
 #endif
+#endif
+
+
 // ---------------------------------------------------------------------------
 //  Local Constants
 // ---------------------------------------------------------------------------
