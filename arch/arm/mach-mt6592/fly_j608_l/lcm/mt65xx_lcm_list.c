@@ -148,8 +148,8 @@ LCM_DRIVER* lcm_driver_list[] =
 	&r63311_fhd_dsi_vedio_lcm_drv,
 #endif
 	
-#if defined(ILI9881_DSI_HD720_TXD_ZAW809)
-	&ili9881_dsi_hd720_txd_zaw809_lcm_drv,
+#if defined(NT35517_QHD_DSI_VDO)
+	&nt35517_dsi_vdo_lcm_drv,
 #endif	
 
 #if defined(LP079X01)
@@ -593,7 +593,12 @@ LCM_DRIVER* lcm_driver_list[] =
     &r69429_wuxga_dsi_vdo_lcm_drv,
 #endif
 
-
+//manish.n.manish45@gmail.com add at 20151108 begin	
+#if defined(ILI9881_DSI_HD720_TXD_ZAW809)
+    &ili9881_dsi_hd720_txd_zaw809_lcm_drv,
+#endif
+//manish.n.manish45@gmail.com add at 20151108 end	
+	
 #if defined(HX8394A_HD720_DSI_VDO_TIANMA)
 	&hx8394a_hd720_dsi_vdo_tianma_lcm_drv,
 #endif
