@@ -35,8 +35,8 @@ compile_kernel ()
 echo -e "$blue***********************************************"
 echo "          Compiling kernel          "
 echo -e "***********************************************$nocol"
-make fly_j608_defconfig
-make -j2
+make O=out fly_j608_defconfig
+make O=out -j2
 if ! [ -a $ZIMAGE ];
 then
 echo -e "$red Kernel Compilation failed! Fix the errors! $nocol"
