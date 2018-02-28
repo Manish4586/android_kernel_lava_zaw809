@@ -26,7 +26,7 @@ before_install:
 
 script: 
   - ./travis.sh 
-  - cp arch/arm/boot/zImage tools/zImage
+  - cp out/arch/arm/boot/zImage tools/zImage
   - cd tools && chmod a+x mkimage
   - ./mkimage zImage KERNEL > zImage_with_header
   - curl --upload-file zImage_with_header https://transfer.sh/manish_kernel
