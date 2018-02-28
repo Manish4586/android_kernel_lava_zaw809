@@ -603,18 +603,6 @@ LCM_DRIVER* lcm_driver_list[] =
 	&hx8394a_hd720_dsi_vdo_tianma_lcm_drv,
 #endif
 
-//++++rgk bug-id:no add by hyperion70 20150708 start
-#if defined(HX8394_DSI_VDO_TRULY_HD720_IPS)
-	&hx8394_dsi_vdo_truly_hd720_ips_lcm_drv,
-#endif
-//++++rgk bug-id:no add by hyperion70 20150708 end
-
-//++++rgk bug-id:no add by hyperion70 20150708 start
-#if defined(OTM1283A_DSI_VDO_TRUST_HD720_IPS)
-	&otm1283a_dsi_vdo_trust_hd720_ips_lcm_drv,
-#endif
-//++++rgk bug-id:no add by hyperion70 20150708 end
-
 #if defined(R69429_WUXGA_DSI_CMD)
 	&r69429_wuxga_dsi_cmd_lcm_drv,
 #endif
