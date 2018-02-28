@@ -35,6 +35,7 @@ compile_kernel ()
 echo -e "$blue***********************************************"
 echo "          Compiling kernel          "
 echo -e "***********************************************$nocol"
+mkdir out
 make O=out fly_j608_defconfig
 make O=out -j2
 if ! [ -a $ZIMAGE ];
