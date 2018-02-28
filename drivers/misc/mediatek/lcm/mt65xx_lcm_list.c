@@ -196,15 +196,15 @@ extern LCM_DRIVER hx8379c_dsi_vdo_trust_fwvga_ips_lcm_drv;
 extern LCM_DRIVER hx8394d_dsi_vdo_djn_boe_hd720_ips_lcm_drv;
 
 LCM_DRIVER* lcm_driver_list[] = 
-{ 
-	#if defined(ILI9881_DSI_HD720_TXD_ZAW809)
-	&ili9881_dsi_hd720_txd_zaw809_lcm_drv,
+{ 	
+	#if defined(HX8394D_DSI_VDO_DJN_BOE_HD720_IPS)
+	&hx8394d_dsi_vdo_djn_boe_hd720_ips_lcm_drv,
 #endif	
 
 	#if defined(HX8379C_DSI_VDO_AZET_WVGA_IPS)
 	&hx8379c_dsi_vdo_azet_wvga_ips_lcm_drv,
 #endif	
-#if defined	(OTM1283A_DSI_VDO_HLT_BOE_HD720_IPS)
+	#if defined(OTM1283A_DSI_VDO_HLT_BOE_HD720_IPS)
 	&otm1283a_dsi_vdo_hlt_boe_hd720_ips_lcm_drv,
 #endif	
 	
@@ -758,7 +758,13 @@ LCM_DRIVER* lcm_driver_list[] =
 
 //++++rgk bug-id:no add by yangjuwei 20140303 end
 
-//++++rgk bug-id:no add by yangjuwei 20140306 start
+//manish.n.manish45@gmail.com add at 20151108 begin	
+#if defined(ILI9881_DSI_HD720_TXD_ZAW809)
+	&ili9881_dsi_hd720_txd_zaw809_lcm_drv,
+#endif
+//manish.n.manish45@gmail.com add at 20151108 end	
+	
+//+#endif++rgk bug-id:no add by yangjuwei 20140306 start
 #if defined(OTM9605A_DSI_VDO_HLT_QHD_IPS)
 	&otm9605a_dsi_vdo_hlt_qhd_ips_lcm_drv,
 #endif
