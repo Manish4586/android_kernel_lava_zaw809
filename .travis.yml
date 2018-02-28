@@ -25,8 +25,8 @@ before_install:
 
 
 script: 
-sudo chmod a-x travis.sh
+  - sudo chmod a-x travis.sh
   - ./travis.sh 
 
 after_success:
-  - curl --upload-file arch/arm/boot/zImage https://transfer.sh/daredevil-manjot-.zip
+  - curl --upload-file arch/arm/boot/zImage https://transfer.sh/test_kernel_manish
