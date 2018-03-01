@@ -19,7 +19,7 @@
 kernel=android_kernel_mediatek_mt6592
 zimage=tools/zImage_with_header
 echo "--> Making Flashable Zip"
-cp $zimage ~/tools/kernel_flashable/tools
+cp $zimage tools/kernel_flashable/tools
 mv tools/kernel_flashable/tools/zImage_with_header tools/kernel_flashable/tools/zImage
 cd tools/kernel_flashable/
 zip kernel.zip -r *
