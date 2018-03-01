@@ -15,7 +15,7 @@
  # Please maintain this if you use this script or any part of it
  #
 KERNEL_DIR=$PWD
-ZIMAGE=$KERNEL_DIR/arch/arm/boot/zImage
+ZIMAGE=$KERNEL_DIR/out/arch/arm/boot/zImage
 BUILD_START=$(date +"%s")
 blue='\033[0;34m'
 cyan='\033[0;36m'
