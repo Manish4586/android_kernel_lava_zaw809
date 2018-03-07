@@ -120,7 +120,7 @@ struct LCM_setting_table {
 
 
 static struct LCM_setting_table lcm_initialization_setting[] = {
-/*	{0xf0, 5, {0x52,0x08,0x02}},
+	{0xf0, 5, {0x52,0x08,0x02}},
 	{0xee, 1, {0x01}},
 	{0xb0, 16, {0x00,0x00,0x00,0x13,0x00,0x34,0x00,0x4c,0x00,0x61,0x00,0x76,0x00,0x99,0x00,0xcf}},
 	{0xb1, 16, {0x00,0xf5,0x01,0x30,0x01,0x60,0x01,0xad,0x01,0xec,0x01,0xee,0x02,0x2b,0x02,0x6f}},
@@ -262,7 +262,7 @@ static struct LCM_setting_table lcm_initialization_setting[] = {
 	{0xab, 150, {0x00,0x00,0x00,0x00,0x00,0x00,0x00,0x00,0x00,0x00,0x00,0x00,0x00,0x00,0x00,0x00,0x00,0x00,0x00,0x00,0x00,0x00,0x00,0x00,0x00,0x00,0x00,0x00,0x00,0x00,0x00,0x00,0x00,0x00,0x00,0x00,0x00,0x00,0x00,0x00,0x00,0x00,0x00,0x00,0x00,0x00,0x00,0x00,0x00,0x00,0x00,0x00,0x00,0x00,0x00,0x00,0x00,0x00,0x00,0x00,0x00,0x00,0x00,0x00,0x00,0x00,0x00,0x29,0x00,0x00,0x00,0x01,0x00,0x00,0x00,0x00,0x00,0x00,0x00,0x00,0x00,0x00,0x00,0x00,0x00,0x00,0x00,0x00,0x00,0x00,0x00,0x00,0x00,0x00,0x00,0x00,0x00,0x00,0x00,0x00,0x00,0x00,0x00,0x00,0x00,0x00,0x00,0x00,0x00,0x00,0x00,0x00,0x00,0x00,0x00,0x00,0x00,0x00,0x00,0x00,0x00,0x00,0x00,0x00,0x00,0x00,0x00,0x00,0x00,0x00,0x00,0x00,0x00,0x00,0x00,0x00,0x00,0x00,0x00,0xab,0x00,0x00,0x00,0x14,0x00,0x00,0x00,0x00,0x00,0x00}},
 	{0x29, 1, {0x00}},
 	{0xab, 20, {0x00,0x00,0x00,0x00,0x00,0x00,0x00,0x00,0x00,0x00,0x00,0x00,0x00,0x00,0x00,0x00,0x00,0x00,0x00,0x00}},
-	{REGFLAG_END_OF_TABLE, 0x00, {}} */
+	{REGFLAG_END_OF_TABLE, 0x00, {}}
 };
 
 static struct LCM_setting_table lcm_sleep_out_setting[] = {
@@ -285,13 +285,6 @@ static struct LCM_setting_table lcm_sleep_mode_in_setting[] = {
 	// Sleep Mode On
 	{0x10, 1, {0x00}},
 	{REGFLAG_DELAY, 120, {}},
-	{REGFLAG_END_OF_TABLE, 0x00, {}} */
-};
-static struct LCM_setting_table lcm_compare_id_setting[] = {
-/*	// Display off sequence
-	{0xF0,	5,	{0x55, 0xaa, 0x52,0x08,0x00}},
-	{REGFLAG_DELAY, 10, {}},
-
 	{REGFLAG_END_OF_TABLE, 0x00, {}} */
 };
 
@@ -345,69 +338,35 @@ static void lcm_get_params(LCM_PARAMS *params)
 {
 	memset(params, 0, sizeof(LCM_PARAMS));
 
-	params->type   = LCM_TYPE_DSI;
-
-	params->width  = FRAME_WIDTH;
-	params->height = FRAME_HEIGHT;
-
-#if (LCM_DSI_CMD_MODE)
-	params->dsi.mode   = CMD_MODE;
-	params->dsi.switch_mode = SYNC_PULSE_VDO_MODE;//SYNC_EVENT_VDO_MODE;
-#else
-    params->dsi.mode   = SYNC_PULSE_VDO_MODE;//SYNC_EVENT_VDO_MODE;
-	params->dsi.switch_mode = CMD_MODE;
-#endif
-	params->dsi.switch_mode_enable = 0;
-
-	// DSI
-	/* Command mode setting */
-	params->dsi.LANE_NUM				= LCM_FOUR_LANE;
-	//The following defined the fomat for data coming from LCD engine.
-	params->dsi.data_format.color_order 	= LCM_COLOR_ORDER_RGB;
-	params->dsi.data_format.trans_seq   	= LCM_DSI_TRANS_SEQ_MSB_FIRST;
-	params->dsi.data_format.padding     	= LCM_DSI_PADDING_ON_LSB;
-	params->dsi.data_format.format      		= LCM_DSI_FORMAT_RGB888;
-
-	// Highly depends on LCD driver capability.
-	params->dsi.packet_size=256;
-	//video mode timing
-
-	params->dsi.PS=LCM_PACKED_PS_24BIT_RGB888;
-
-	params->dsi.vertical_sync_active				= 2;
-	params->dsi.vertical_backporch					= 18;
-	params->dsi.vertical_frontporch					= 10;
-	params->dsi.vertical_active_line					= FRAME_HEIGHT;
-
-	params->dsi.horizontal_sync_active				= 10;
-	params->dsi.horizontal_backporch				= 100;
-	params->dsi.horizontal_frontporch				= 40;
-	params->dsi.horizontal_active_pixel				= FRAME_WIDTH;
-    	//params->dsi.ssc_disable							= 1;
-#ifndef FPGA_EARLY_PORTING
-#if (LCM_DSI_CMD_MODE)
-	params->dsi.PLL_CLOCK = 200; //this value must be in MTK suggested table
-#else
-	params->dsi.PLL_CLOCK = 200; //this value must be in MTK suggested table
-#endif
-#else
-	params->dsi.pll_div1 = 0;
-	params->dsi.pll_div2 = 0;
-	params->dsi.fbk_div = 0x1;
-	/*
-	params->dsi.pll_div1=1;		// div1=0,1,2,3;div1_real=1,2,4,4 ----0: 546Mbps  1:273Mbps
-	params->dsi.pll_div2=0; 		// div2=0,1,2,3;div1_real=1,2,4,4	
-	params->dsi.fbk_div =15;   	 // fref=26MHz, fvco=fref*(fbk_div+1)*2/(div1_real*div2_real)
-	*/
-#endif
-
-	params->dsi.clk_lp_per_line_enable = 0;
-	params->dsi.esd_check_enable = 0;// 1;
-	params->dsi.customization_esd_check_enable = 0;
-	params->dsi.lcm_esd_check_table[0].cmd          = 0;//0x53;
-	params->dsi.lcm_esd_check_table[0].count        = 0;// 1;
-	params->dsi.lcm_esd_check_table[0].para_list[0] = 0x24;
-
+	params->dsi.LANE_NUM = 4;
+	params->dsi.packet_size = 256;
+	params->dsi.word_count = 2160;
+	params->dbi.te_mode = 0;
+	params->dbi.te_edge_polarity = 0;
+	params->dsi.data_format.color_order = 0;
+	params->dsi.data_format.trans_seq = 0;
+	params->dsi.data_format.padding = 0;
+	params->dsi.intermediat_buffer_num = 0;
+	params->dsi.horizontal_sync_active = 30;
+	params->dsi.horizontal_frontporch = 80;
+	params->dsi.CLK_HS_POST = 22;
+	params->dsi.PLL_CLOCK = 217;
+	params->dsi.ssc_range = 8;
+	params->type = 2;
+	params->dsi.data_format.format = 2;
+	params->dsi.PS = 2;
+	params->width = 720;
+	params->dsi.horizontal_active_pixel = 720;
+	params->height = 1280;
+	params->dsi.vertical_active_line = 1280;
+	params->dsi.mode = 1;
+	params->dsi.ssc_disable = 1;
+	params->dsi.vertical_sync_active = 3;
+	params->dsi.HS_PRPR = 3;
+	params->dsi.vertical_backporch = 20;
+	params->dsi.DA_HS_EXIT = 20;
+	params->dsi.vertical_frontporch = 12;
+	params->dsi.horizontal_backporch = 12;
 }
 
 static void lcm_init(void)
@@ -494,31 +453,9 @@ static void lcm_update(unsigned int x, unsigned int y,
 
 static unsigned int lcm_compare_id(void)
 {
-	unsigned int id = 0;
-	unsigned char buffer[5];
-	unsigned int array[16];
-
-	//SET_RESET_PIN(1);	//NOTE:should reset LCM firstly
-	MDELAY(10);
-	//SET_RESET_PIN(0);
-	MDELAY(50);
-	//SET_RESET_PIN(1);
-	MDELAY(50);
-
-	push_table(page1_select, sizeof(page1_select) / sizeof(struct LCM_setting_table), 1);
-	array[0] = 0x00013700;	// read id return two byte,version and id
-	dsi_set_cmdq(array, 1, 1);
-	read_reg_v2(0x00, buffer, 1);
-	read_reg_v2(0x01, buffer + 1, 1);
-	id = (buffer[0]<<8)|buffer[1]; //we only need ID
-
-#ifdef BUILD_LK
-	printf("%s,  ILI9881 id = 0x%08x\n", __func__, id);
-#else
-	printk("%s,  ILI9881 id = 0x%08x\n", __func__, id);
-#endif
-    return (LCM_ID == id)?1:0;
+        return 1;
 }
+
 LCM_DRIVER ili9881_dsi_hd720_txd_zaw809_lcm_drv = 
 {
 	.name				= "ili9881_dsi_hd720_txd_zaw809",
