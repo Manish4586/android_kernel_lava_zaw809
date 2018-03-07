@@ -18,8 +18,8 @@
 #define LCD_DEBUG(fmt)  printk(fmt)
 #endif
 
+extern LCM_DRIVER otm1287_hd720_dsi_vdo_boyi_longwei_lcm_drv;
 extern LCM_DRIVER lp079x01_lcm_drv;
-extern LCM_Driver ili9881_dsi_hd720_txd_zaw809_lcm_drv;//manish.n.manish45@gmail.com add at 20151108 begin
 extern LCM_DRIVER hx8369_lcm_drv;
 extern LCM_DRIVER hx8369_6575_lcm_drv;
 extern LCM_DRIVER hx8363_6575_dsi_lcm_drv;
@@ -130,6 +130,8 @@ extern LCM_DRIVER hx8389b_qhd_dsi_vdo_tianma055xdhp_lcm_drv;
 extern LCM_DRIVER cpt_claa101fp01_dsi_vdo_lcm_drv;
 extern LCM_DRIVER h070d_18dm_lcm_drv;
 extern LCM_DRIVER hx8394a_hd720_dsi_vdo_tianma_lcm_drv;
+extern LCM_DRIVER hx8394_dsi_vdo_truly_hd720_ips_lcm_drv;//++++rgk bug-id:no add by hyperion70 20150708
+extern LCM_DRIVER otm1283a_dsi_vdo_trust_hd720_ips_lcm_drv;//++++rgk bug-id:no add by hyperion70 20150708
 extern LCM_DRIVER cpt_clap070wp03xg_sn65dsi83_lcm_drv;
 extern LCM_DRIVER nt35520_hd720_tm_lcm_drv;
 extern LCM_DRIVER nt35520_hd720_boe_lcm_drv;
@@ -140,18 +142,27 @@ extern LCM_DRIVER r69429_wuxga_dsi_cmd_lcm_drv;
 extern LCM_DRIVER rm68210_hd720_dsi_ufoe_cmd_lcm_drv;
 extern LCM_DRIVER r63311_fhd_dsi_vedio_lcm_drv;
 extern LCM_DRIVER lvds_wsvga_mt8193_lcm_drv;
+extern LCM_DRIVER hx8394d_dsi_vdo_djn_boe_hd720_ips_lcm_drv;
+
 LCM_DRIVER* lcm_driver_list[] = 
 { 
+#if defined(HX8394D_DSI_VDO_DJN_BOE_HD720_IPS)
+	&hx8394d_dsi_vdo_djn_boe_hd720_ips_lcm_drv,
+#endif	
 #if defined(R63311_FHD_DSI_VDO)
 	&r63311_fhd_dsi_vedio_lcm_drv,
 #endif
-	
 #if defined(NT35517_QHD_DSI_VDO)
 	&nt35517_dsi_vdo_lcm_drv,
-#endif	
+#endif
+
 
 #if defined(LP079X01)
 	&lp079x01_lcm_drv,
+#endif
+
+#if defined(OTM1287_HD720_DSI_VDO_BOYI_LONGWEI)
+        &otm1287_hd720_dsi_vdo_boyi_longwei_lcm_drv,
 #endif
 
 #if defined(HX8369)
@@ -591,15 +602,22 @@ LCM_DRIVER* lcm_driver_list[] =
     &r69429_wuxga_dsi_vdo_lcm_drv,
 #endif
 
-//manish.n.manish45@gmail.com add at 20151108 begin	
-#if defined(ILI9881_DSI_HD720_TXD_ZAW809)
-    &ili9881_dsi_hd720_txd_zaw809_lcm_drv,
-#endif
-//manish.n.manish45@gmail.com add at 20151108 end	
-	
+
 #if defined(HX8394A_HD720_DSI_VDO_TIANMA)
 	&hx8394a_hd720_dsi_vdo_tianma_lcm_drv,
 #endif
+
+//++++rgk bug-id:no add by hyperion70 20150708 start
+#if defined(HX8394_DSI_VDO_TRULY_HD720_IPS)
+	&hx8394_dsi_vdo_truly_hd720_ips_lcm_drv,
+#endif
+//++++rgk bug-id:no add by hyperion70 20150708 end
+
+//++++rgk bug-id:no add by hyperion70 20150708 start
+#if defined(OTM1283A_DSI_VDO_TRUST_HD720_IPS)
+	&otm1283a_dsi_vdo_trust_hd720_ips_lcm_drv,
+#endif
+//++++rgk bug-id:no add by hyperion70 20150708 end
 
 #if defined(R69429_WUXGA_DSI_CMD)
 	&r69429_wuxga_dsi_cmd_lcm_drv,
@@ -629,7 +647,7 @@ static unsigned char lcd_id_pins_value = 0xFF;
 
 /******************************************************************************
 Function:       which_lcd_module_triple
-  Description:    read LCD ID PIN status,could identify three status:high¡¢low¡¢float
+  Description:    read LCD ID PIN status,could identify three status:high\A1\A2low\A1\A2float
   Input:           none
   Output:         none
   Return:         LCD ID1|ID0 value
