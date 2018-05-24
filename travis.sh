@@ -36,7 +36,7 @@ echo -e "$blue***********************************************"
 echo "          Compiling kernel          "
 echo -e "***********************************************$nocol"
 mkdir out
-make O=out x8_defconfig
+make O=out zaw809_defconfig
 make O=out -j2
 if ! [ -a $ZIMAGE ];
 then
