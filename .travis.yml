@@ -1,8 +1,6 @@
+
 language: c
-
 #######################################################################################
-
-
 os:
   - linux
   
@@ -16,18 +14,26 @@ addons:
 
 before_install:
 
-  - sudo apt-get update -qq  
-  # downloading the latest version of the linaro toolchain. 
+  - sudo apt-get update -qq
+  
   - git clone https://android.googlesource.com/platform/prebuilts/gcc/linux-x86/arm/arm-eabi-4.8 ~/arm-eabi-4.8/
+  
+  - sudo chmod -R a+x *
 
 #######################################################################################
 
 
-script: 
-  - ./travis.sh 
-  - cp out/arch/arm/boot/zImage tools/zImage
-  - cd tools && chmod a+x mkimage
-  - ./mkimage zImage KERNEL > zImage_with_header
-  - cd ../
-  - ./zip.sh
-  - curl --upload-file kernel.zip https://transfer.sh/kernel.zip
+script:  
+  - export ARCH=arm
+  - export ARCH_MTK_PLATFORM=mt6592
+  - export CROSS_COMPILE=~/arm-eabi-4.8/bin/arm-eabi-
+  - export KBUILD_BUILD_USER="root"
+  - export KBUILD_BUILD_HOST="Manish4586"
+  - mkdir out
+  - make O=out zaw809_defconfig
+  - make O=out -j2
+
+after_success:
+  - curl --upload-file out/arch/arm/boot/zImage https://transfer.sh/zImage
+  
+  
