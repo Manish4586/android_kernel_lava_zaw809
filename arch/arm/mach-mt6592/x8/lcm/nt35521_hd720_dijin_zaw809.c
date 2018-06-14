@@ -519,16 +519,16 @@ static unsigned int lcm_esd_recover(void)
 	lcm_init();
 	
 	#ifndef BUILD_LK
-	printk("lcm_esd_recover  ili9806e_dsi_vdo_hlt_fwvga_ips_j502 \n");
+	printk("lcm_esd_recover  ili9881_dsi_hd70_hlt_fwvga_ips_j502 \n");
 	#endif
 	return TRUE;
 }
 
 
 LCM_DRIVER 
-nt35521_hd720_dijin_aw809_lcm_drv =
+nt35521_hd720_dijin_zaw809_lcm_drv =
 {
-    .name           	= " nt35521_hd720_dijin_aw809 ",
+    .name           	= " nt35521_hd720_dijin_zaw809 ",
     .set_util_funcs 	= lcm_set_util_funcs,
     .get_params     	= lcm_get_params,
     .init           	= lcm_init,
