@@ -2,19 +2,14 @@
 #include "lcm_drv.h"
 
 #ifdef BUILD_LK
-#include <platform/gpio_const.h>
 #include <platform/mt_gpio.h>
-/*
-#include <platform/upmu_common.h>
-*/
+
 #else
 #include <linux/string.h>
 #if defined(BUILD_UBOOT)
 	#include <asm/arch/mt_gpio.h>
 #else
-	#include <mt-plat/mt_gpio.h>
-	#include <mach/gpio_const.h>
-#endif
+	#include <mach/mt_gpio.h
 #endif
 
 
