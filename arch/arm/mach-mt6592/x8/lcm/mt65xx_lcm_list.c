@@ -187,6 +187,7 @@ extern LCM_DRIVER otm8019a_fwvga_dsi_vdo_trust_ips_oncell_lcm_drv;  //sym add in
 extern LCM_DRIVER otm1283a_dsi_vdo_trust_hd720_cmi_ips_lcm_drv;//++++rgk bug-id:no add by yangjuwei 20140703
 extern LCM_DRIVER nt35521_hd720_dsi_vdo_djn_boe_ips_oncell_lcm_drv;  //sym add in 20140704
 extern LCM_DRIVER hx8394_dsi_vdo_djn_hd720_cpt_ips_oncell_lcm_drv;
+extern LCM_DRIVER nt35521_hd720_dijin_zaw809_lcm_drv;
 extern LCM_DRIVER otm1283a_dsi_vdo_hlt_boe_hd720_ips_lcm_drv; //sym add in 20140721
 
 extern LCM_DRIVER otm1283a_hd720_dsi_vdo_belij_lcm_drv;//add by wuhao 2014/7/24
@@ -206,6 +207,10 @@ LCM_DRIVER* lcm_driver_list[] =
 #endif	
 	#if defined(OTM1283A_DSI_VDO_HLT_BOE_HD720_IPS)
 	&otm1283a_dsi_vdo_hlt_boe_hd720_ips_lcm_drv,
+#endif	
+
+#if defined(NT35521_HD720_DIJIN_ZAW809)
+	&nt35521_hd720_dijin_zaw809_lcm_drv,
 #endif	
 	
 //add by yangjuwei
