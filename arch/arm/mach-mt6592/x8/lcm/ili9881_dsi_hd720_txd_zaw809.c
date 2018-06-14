@@ -1,15 +1,16 @@
-//Manish4586 add at 20161108 begin
+//xuzhifeng@wind-mobi.com add at 20161108 begin
+
+#ifndef BUILD_LK
+#include <linux/string.h>
+#endif
 #include "lcm_drv.h"
 
 #ifdef BUILD_LK
-#include <platform/mt_gpio.h>
-
-#else
-#include <linux/string.h>
-#if defined(BUILD_UBOOT)
+	#include <platform/mt_gpio.h>
+#elif defined(BUILD_UBOOT)
 	#include <asm/arch/mt_gpio.h>
 #else
-	#include <mach/mt_gpio.h
+	#include <mach/mt_gpio.h>
 #endif
 
 
@@ -20,6 +21,12 @@
 #define FRAME_WIDTH  										(720)
 #define FRAME_HEIGHT 										(1280)
 #define LCM_ID_ILI9881                                                              (0x9800)    
+
+//sunsiyuan@wind-mobi.com modify ata_check at 20161231 begin
+#ifdef CONFIG_WIND_DEVICE_INFO
+		extern char *g_lcm_name;
+#endif
+//sunsiyuan@wind-mobi.com modify ata_check at 20161231 end
 
 #define REGFLAG_DELAY             								0xFC
 #define REGFLAG_END_OF_TABLE      							0xFD   // END OF REGISTERS MARKER
@@ -33,6 +40,16 @@
 #ifndef FALSE
     #define FALSE 0
 #endif
+
+//tuwenzan@wind-mobi.com add for init cabc ctrl backlight at 20170106 begin
+#ifdef CONFIG_WIND_CABC_MODE_SUPPORT
+extern int cabc_mode_mode;
+#define CABC_MODE_SETTING_UI	1
+#define CABC_MODE_SETTING_MV	2
+#define CABC_MODE_SETTING_DIS	3
+#define CABC_MODE_SETTING_NULL	0
+#endif
+//tuwenzan@wind-mobi.com add for init cabc ctrl backlight at 20170106 end
 
 static unsigned int lcm_esd_test = FALSE;      ///only for ESD test
 // ---------------------------------------------------------------------------
@@ -65,6 +82,7 @@ static LCM_UTIL_FUNCS lcm_util;
 };
 
 static struct LCM_setting_table lcm_initialization_setting[] = {	
+	//liujinzhou@wind-mobi.com modify at 20161223 begin
 	{0xFF,3,{0x98,0x81,0x03}},
 	//GIP_1                   
 	{0x01,1,{0x00}},
@@ -265,14 +283,21 @@ static struct LCM_setting_table lcm_initialization_setting[] = {
 	
 		//CMD_Page 0        
 	{0xFF,3,{0x98,0x81,0x00}},
-//cabc by Manish4586
+//tuwenzan@wind-mobi.com add for init cabc ctrl backlight at 20170105 begin
 	{0x35,1,{0x00}},
 	{0x11,1,{0x00}},
 	{REGFLAG_DELAY, 120, {}},		//120 
 	{0x29,1,{0x00}},
 	{REGFLAG_DELAY, 20, {}},	   //20
+
+#ifdef  CONFIG_WIND_CABC_BACKLIGHT_CTRL
+	{0x51,2,{0x00,0x00}}, 
+	{0x53,1,{0x2C}},
+	{0x55,1,{0x00}},
+#endif
+//tuwenzan@wind-mobi.com add for init cabc ctrl backlight at 20170105 end
 	{REGFLAG_END_OF_TABLE, 0x00, {}}
-	//cabc end
+	//liujinzhou@wind-mobi.com modify at 20161223 end
 };
 /*
 static struct LCM_setting_table lcm_sleep_out_setting[] = {
@@ -299,7 +324,7 @@ static struct LCM_setting_table lcm_deep_sleep_mode_in_setting[] = {
     {REGFLAG_DELAY, 20, {}},
     {REGFLAG_END_OF_TABLE, 0x00, {}}
 };
-/*
+//tuwenzan@wind-mobi.com add for init cabc ctrl backlight at 20170105 begin
 #ifdef CONFIG_WIND_CABC_MODE_SUPPORT
 static struct LCM_setting_table lcm_setting_ui[] = {
 {0x55,1,{0x01}},
@@ -330,7 +355,7 @@ static struct LCM_setting_table close_lcm_backlight_setting[] = {
 	{REGFLAG_END_OF_TABLE, 0x00, {}}
 };
 #endif
-*/
+//tuwenzan@wind-mobi.com add for init cabc ctrl backlight at 20170105 end
 
 static void push_table(struct LCM_setting_table *table, unsigned int count, unsigned char force_update)
 {
@@ -405,11 +430,11 @@ static void lcm_get_params(LCM_PARAMS *params)
 		params->dsi.vertical_backporch				       = 20;  //14  
 		params->dsi.vertical_frontporch				       = 14;  //16  
 		params->dsi.vertical_active_line				       = FRAME_HEIGHT; 
-		//Manish4586 modify for frame rate at 20170210 begin
+		//tuwenzan@wind-mobi.com modify for frame rate at 20170210 begin
 		params->dsi.horizontal_sync_active				= 40;   //4
 		params->dsi.horizontal_backporch				= 40;  //60  
 		params->dsi.horizontal_frontporch				= 40;    //60
-		//Manish4586 modify for frame rate at 20170210 end
+		//tuwenzan@wind-mobi.com modify for frame rate at 20170210 end
 		params->dsi.horizontal_blanking_pixel				= 60;   
 		params->dsi.horizontal_active_pixel				= FRAME_WIDTH;  
 		
@@ -428,10 +453,10 @@ static void lcm_get_params(LCM_PARAMS *params)
 		params->dsi.lcm_esd_check_table[0].cmd                  = 0x0a;
 		params->dsi.lcm_esd_check_table[0].count                = 1;
 		params->dsi.lcm_esd_check_table[0].para_list[0] = 0x9C;
-		//Manish4586 add physical size at 20170217 begin
+		//tuwenzan@wind-mobi.com add physical size at 20170217 begin
 		params->physical_width  = 118;
 		params->physical_height = 65;
-		//Manish4586 add physical size at 20170217 begin
+		//tuwenzan@wind-mobi.com add physical size at 20170217 begin
 }
 
 static void lcm_init(void)
@@ -450,17 +475,15 @@ static void lcm_init(void)
 	SET_RESET_PIN(1);
 	MDELAY(120);		
 
-	push_table(lcm_initialization_setting, sizeof(lcm_initialization_setting) / sizeof(struct LCM_setting_table), 1);
-/* 
-	//add for init cabc ctrl backlight at 20170105 begin
+	push_table(lcm_initialization_setting, sizeof(lcm_initialization_setting) / sizeof(struct LCM_setting_table), 1); 
+	//tuwenzan@wind-mobi.com add for init cabc ctrl backlight at 20170105 begin
 	#ifdef  CONFIG_WIND_CABC_BACKLIGHT_CTRL
 	if(wind_board_id <= 0x13){
 		push_table(close_lcm_backlight_setting, sizeof(close_lcm_backlight_setting) / sizeof(struct LCM_setting_table), 1);
 	}
 	#endif
-	//add for init cabc ctrl backlight at 20170105 end
+	//tuwenzan@wind-mobi.com add for init cabc ctrl backlight at 20170105 end
 }
-*/
 
 static void lcm_suspend(void) 
 {
@@ -480,8 +503,8 @@ static void lcm_suspend(void)
 
 static void lcm_resume(void)
 {
-printk("zaw809 ---- lcm_resume enter \n");
-//Manish4586 modify at 20170322 for LCD out sleep time 
+printk("hyg ---- lcm_resume enter \n");
+//huyunge@wind-mobi.com modify at 20170322 for LCD out sleep time 
 #ifdef GPIO_LCD_BIAS_ENP_PIN	
 	mt_set_gpio_mode(GPIO_LCD_BIAS_ENP_PIN, GPIO_MODE_00);	
 	mt_set_gpio_dir(GPIO_LCD_BIAS_ENP_PIN, GPIO_DIR_OUT);	
@@ -503,16 +526,16 @@ printk("zaw809 ---- lcm_resume enter \n");
 	}
 	#endif
 	//lcm_init();
-	printk("zaw809 ---- lcm_resume out \n");
-//Manish4586 modify at 20170322 for LCD out sleep time
+	printk("hyg ---- lcm_resume out \n");
+//huyunge@wind-mobi.com modify at 20170322 for LCD out sleep time
 }
 
-//Manish4586 modify ata_check at 20161228 begin
-//Manish4586 add for init cabc ctrl backlight at 20170105 begin
+//sunsiyuan@wind-mobi.com modify ata_check at 20161228 begin
+//tuwenzan@wind-mobi.com add for init cabc ctrl backlight at 20170105 begin
 #ifdef CONFIG_WIND_CABC_MODE_SUPPORT
 static void lcm_cabc_cmdq(void *handle, unsigned int mode)
 {
-	printk("zaw809 enter lcm_cabc_cmdq mode = %d\n",mode);
+	printk("tuwenzan enter lcm_cabc_cmdq mode = %d\n",mode);
 	if(wind_board_id > 0x13){
 	switch(mode)
 	{
@@ -568,18 +591,18 @@ static void lcm_setbacklight(unsigned int level)
 	}
 }
 #endif
-//Manish4586 add for init cabc ctrl backlight at 20170105 end
+//tuwenzan@wind-mobi.com add for init cabc ctrl backlight at 20170105 end
 static unsigned int lcm_ata_check(unsigned char *buf)
 {
 	#ifdef CONFIG_WIND_DEVICE_INFO
-	if(!strcmp(g_lcm_name,"ili9881_dsi_hd720_txd_zaw809")){
+	if(!strcmp(g_lcm_name,"ili9881_hd720_dsi_vdo_tm")){
 		return 1;
 	}else{
 		return -1;
 	}
 	#endif
 }
-//Manish4586 modify ata_check at 20161228 end
+//sunsiyuan@wind-mobi.com modify ata_check at 20161228 end
 //extern unsigned char which_lcd_module_triple_cust(void); 
 static unsigned int lcm_compare_id(void)
 {
@@ -646,12 +669,12 @@ static unsigned int lcm_compare_id(void)
 			return 1;
 		}
 	}
- 	//Manish4586 modify at 20161130 begin
+ 	//liujinzhou@wind-mobi.com modify at 20161130 begin
     else
     {
         return 0;//1->0
     }
-	//Manish4586 modify at 20161130 end
+	//liujinzhou@wind-mobi.com modify at 20161130 end
 }
 //static int err_count = 0;
 static unsigned int lcm_esd_check(void)
@@ -755,7 +778,7 @@ LCM_DRIVER ili9881_dsi_hd720_txd_zaw809_lcm_drv =
     .compare_id     	= lcm_compare_id,
 	.esd_check = lcm_esd_check,
 	.esd_recover = lcm_esd_recover,
-
+//tuwenzan@wind-mobi.com add for init cabc ctrl backlight at 20170105 begin
 #ifdef  CONFIG_WIND_CABC_BACKLIGHT_CTRL
 	.set_backlight = lcm_setbacklight,
 #endif
@@ -763,9 +786,9 @@ LCM_DRIVER ili9881_dsi_hd720_txd_zaw809_lcm_drv =
 	.set_cabc_cmdq = lcm_cabc_cmdq,
 #endif
 
-
-	.ata_check          = lcm_ata_check,    
+//tuwenzan@wind-mobi.com add for init cabc ctrl backlight at 20170105 end
+	.ata_check          = lcm_ata_check,    //sunsiyuan@wind-mobi.com add ata_check at 20161128
 };
 //late_initcall(lcm_init);
-//Manish4586 add at 20161108 end
+//xuzhifeng@wind-mobi.com add at 20161108 end
 
